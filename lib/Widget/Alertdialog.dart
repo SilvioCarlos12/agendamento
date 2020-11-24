@@ -9,7 +9,7 @@ Widget modal(BuildContext context, String titulo) {
           actions: [
             FlatButton(
               onPressed: () {
-                Navigator.popAndPushNamed(context, '/');
+                Navigator.of(context).pop();
               },
               child: Text('Fechar'),
             )

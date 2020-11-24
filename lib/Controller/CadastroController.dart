@@ -25,4 +25,21 @@ class CadastroController {
       }
     } catch (e) {}
   }
+
+  static Future gravarProduto(String descricao, double valor) async {
+    final url =
+        'https://sandbox.adiantibuilder.com.br/silvionetma/testando/servico';
+    var reposta = await http.post(url,
+        body: json.encode({"descricao": descricao, "valor": valor}),
+        headers: {
+          "Authorization":
+              "Basic bc1b7ba57565a6b2e2ed64675aae5dfcb54feeaf63ad8a6d539b9c15e2ac"
+        });
+
+    if (reposta.statusCode == 200) {
+      return "Sucesso no cadastro";
+    } else {
+      return "Ocorreu um erro no cadastro";
+    }
+  }
 }

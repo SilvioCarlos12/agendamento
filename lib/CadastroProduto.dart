@@ -2,19 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:agendamento/Controller/CadastroController.dart';
 import 'Widget/Alertdialog.dart';
 
-class CadastroPage extends StatefulWidget {
-  CadastroPage({Key key}) : super(key: key);
+class CadastroProdutoPage extends StatefulWidget {
+  CadastroProdutoPage({Key key}) : super(key: key);
 
   @override
-  _CadastroPageState createState() => _CadastroPageState();
+  _CadastroProdutoPageState createState() => _CadastroProdutoPageState();
 }
 
-final TextEditingController email = TextEditingController();
-final TextEditingController senha = TextEditingController();
-final TextEditingController nome = TextEditingController();
-final TextEditingController telefone = TextEditingController();
+final TextEditingController descricao = TextEditingController();
+final TextEditingController valor = TextEditingController();
 
-class _CadastroPageState extends State<CadastroPage> {
+class _CadastroProdutoPageState extends State<CadastroProdutoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +20,7 @@ class _CadastroPageState extends State<CadastroPage> {
         backgroundColor: Colors.blue,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pushReplacementNamed(context, '/'),
+          onPressed: () => Navigator.pop(context),
         ),
       ),
       body: SingleChildScrollView(
@@ -40,43 +38,29 @@ class _CadastroPageState extends State<CadastroPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Cadastro',
+                      'Cadastro de Produto',
                       style: TextStyle(fontSize: 40),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextField(
-                        controller: email,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(), labelText: 'Email'),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                        controller: senha,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(), labelText: 'Senha'),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                        controller: nome,
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(), labelText: 'Nome'),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                        controller: telefone,
-                        keyboardType: TextInputType.phone,
+                        controller: descricao,
                         decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            labelText: 'Telefone'),
+                            prefixIcon: Icon(Icons.add_box),
+                            labelText: 'Nome do Produto'),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                        controller: valor,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          prefixIcon: Icon(Icons.monetization_on),
+                          labelText: 'Valor do Produto',
+                        ),
                       ),
                     ),
                     Row(
@@ -87,14 +71,13 @@ class _CadastroPageState extends State<CadastroPage> {
                             onPressed: () {
                               String reposta = '';
 
-                              CadastroController.gravarCliente(email.text,
-                                      senha.text, nome.text, telefone.text)
+                              double valores = double.parse(valor.text);
+                              CadastroController.gravarProduto(
+                                      descricao.text, valores)
                                   .then((value) {
-                                email.clear();
-                                senha.clear();
-                                nome.clear();
-                                telefone.clear();
                                 modal(context, value);
+                                descricao.clear();
+                                valor.clear();
                               });
                             },
                             child: Container(

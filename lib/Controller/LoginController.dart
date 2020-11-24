@@ -17,12 +17,15 @@ class LoginController {
           "Authorization":
               "Basic bc1b7ba57565a6b2e2ed64675aae5dfcb54feeaf63ad8a6d539b9c15e2ac"
         });
-    if (reposta.statusCode == 200) {
+
+    var teste = json.decode(reposta.body);
+    print(teste['data']['error']);
+    if (teste['data']['error'] == 'login rejeitado') {
+      return null;
+    } else {
       var dados = json.decode(reposta.body);
       var cliente = Cliente.fromJson(dados['data']);
       return cliente;
-    } else {
-      return null;
     }
   }
 }
